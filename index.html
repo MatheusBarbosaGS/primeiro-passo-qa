@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Primeiro Passo em QA</title>
+<meta name="description" content="Guia descomplicado para quem quer entrar na área de Qualidade de Software.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Primeiro Passo em QA">
+<meta property="og:description" content="Do zero à sua primeira vaga de QA: trilha de estudos, ferramentas, certificações, portfólio e carreira, por Matheus Barbosa.">
+<meta property="og:locale" content="pt_BR">
+<meta name="author" content="Matheus Barbosa">
+<meta name="theme-color" content="#0B7A5C">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: test-run metaphor — each level of the trail is a test suite; progress is "passed" cases. Single column, max 1080px, sticky nav. */
+:root{
+  --bg:#F3F6F4; --surface:#FFFFFF; --sunk:#E8EEEB;
+  --ink:#13201B; --muted:#55645E; --line:#D6DFDB;
+  --accent:#0B7A5C; --accent-ink:#FFFFFF; --accent-soft:#DDF1E9;
+  --mark:#F5C142; --mark-soft:#FCF0CC; --fail:#C0392B; --fail-soft:#FBE3E0;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1412; --surface:#16201C; --sunk:#1C2723;
+  --ink:#E4ECE8; --muted:#97A7A0; --line:#29362F;
+  --accent:#3CC79A; --accent-ink:#06120E; --accent-soft:#163A2D;
+  --mark:#E3B034; --mark-soft:#3A3115; --fail:#F0786A; --fail-soft:#3B1E1A;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1412; --surface:#16201C; --sunk:#1C2723;
+  --ink:#E4ECE8; --muted:#97A7A0; --line:#29362F;
+  --accent:#3CC79A; --accent-ink:#06120E; --accent-soft:#163A2D;
+  --mark:#E3B034; --mark-soft:#3A3115; --fail:#F0786A; --fail-soft:#3B1E1A;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--mark);outline-offset:2px;border-radius:4px}
+[id]{scroll-margin-top:80px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;letter-spacing:-.02em}
+h3{font-size:1.2rem;font-weight:700}
+.h3big{font-size:1.5rem}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:1.15rem;color:var(--muted);max-width:62ch}
+.muted{color:var(--muted)}
+mark{background:var(--mark-soft);color:inherit;padding:0 .2em;border-radius:3px;box-shadow:inset 0 -.18em 0 var(--mark)}
+code,.mono{font-family:var(--mono);font-size:.88em}
+.block{margin-top:56px;display:grid;gap:8px}
+
+/* Nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap;padding-block:8px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.1rem;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px;margin-right:auto}
+.brand .dot{width:12px;height:12px;border-radius:3px;background:var(--accent);box-shadow:5px 5px 0 var(--mark)}
+nav.links{display:flex;gap:2px;flex-wrap:wrap}
+nav.links a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.92rem;padding:6px 9px;border-radius:6px;white-space:nowrap}
+nav.links a:hover{color:var(--ink);background:var(--sunk)}
+
+section{padding-block:72px;border-bottom:1px solid var(--line)}
+section.alt{background:var(--surface)}
+.sec-head{display:grid;gap:10px;margin-bottom:36px}
+
+/* Hero */
+.hero{padding-block:56px 72px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero-grid > *{min-width:0}
+.hero h1{font-size:clamp(2.4rem,6.4vw,4.4rem);font-weight:800;letter-spacing:-.035em;margin:14px 0 20px}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--mark) 62% 92%,transparent 92%)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:8px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+.run{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);font-family:var(--mono);font-size:.85rem;overflow:hidden;box-shadow:0 18px 40px -24px rgba(10,40,30,.35)}
+.run-head{display:flex;justify-content:space-between;gap:8px;padding:12px 16px;background:var(--sunk);border-bottom:1px solid var(--line);color:var(--muted)}
+.run ol{list-style:none;margin:0;padding:8px 0}
+.run li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:7px 16px}
+.run .id{color:var(--muted)}
+.st{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.st.pass{background:var(--accent-soft);color:var(--accent)}
+.st.prog{background:var(--mark-soft);color:var(--ink)}
+.st.todo{background:var(--sunk);color:var(--muted)}
+.run-foot{padding:12px 16px;border-top:1px dashed var(--line);color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.bar{height:6px;background:var(--sunk);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s ease}
+
+/* About QA */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.split > *{min-width:0}
+.prose{display:grid;gap:14px;max-width:62ch}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.trio > *{min-width:0}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:6px;align-content:start}
+.term b{font-family:var(--mono);font-size:.8rem;color:var(--accent);letter-spacing:.06em}
+.arrow-row{position:relative}
+.day{list-style:none;margin:0;padding:0;display:grid;border-left:2px solid var(--line)}
+.day li{position:relative;padding:0 0 18px 22px}
+.day li::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.day time{font-family:var(--mono);font-size:.8rem;color:var(--muted);display:block}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.compare > *{min-width:0}
+.report{border-radius:var(--r);border:1px solid var(--line);background:var(--surface);overflow:hidden}
+.report header{padding:10px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.report.bad header{background:var(--fail-soft);color:var(--fail)}
+.report.good header{background:var(--accent-soft);color:var(--accent)}
+.report pre{margin:0;padding:16px;font-family:var(--mono);font-size:.8rem;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.report .k{color:var(--muted)}
+
+.myths{display:grid;gap:12px;margin-top:12px}
+details.myth{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details.myth summary{cursor:pointer;padding:16px 20px;font-weight:700;list-style:none;display:flex;gap:12px;align-items:baseline}
+details.myth summary::-webkit-details-marker{display:none}
+details.myth summary::before{content:"MITO";font-family:var(--mono);font-size:.7rem;color:var(--fail);border:1px solid var(--fail);padding:1px 6px;border-radius:4px;flex:none}
+details.myth[open] summary::before{content:"FATO";color:var(--accent);border-color:var(--accent)}
+details.myth p{padding:0 20px 18px 20px;color:var(--muted)}
+
+/* Trail */
+.trail-top{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.reset-zone{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+.linkbtn{font:inherit;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:4px}
+.linkbtn.danger{color:var(--fail);font-weight:700}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:28px 0 20px}
+.tab{flex:none;font:inherit;font-weight:600;background:var(--surface);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:10px 14px;cursor:pointer;display:grid;gap:2px;text-align:left;min-width:150px}
+.tab small{font-family:var(--mono);font-size:.7rem}
+.tab[aria-selected="true"]{border-color:var(--accent);color:var(--ink);box-shadow:inset 0 -3px 0 var(--accent)}
+.tab .done-pip{color:var(--accent)}
+.level{display:grid;grid-template-columns:290px 1fr;gap:32px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.level > *{min-width:0}
+.meta{display:grid;gap:16px;align-content:start}
+.meta dl{margin:0;display:grid;gap:12px}
+.meta dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:2px 0 0;font-weight:600}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.checks li label{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:12px;border-radius:8px;cursor:pointer}
+.checks li label:hover{background:var(--sunk)}
+.checks input{appearance:none;width:22px;height:22px;border:2px solid var(--line);border-radius:5px;margin-top:2px;display:grid;place-content:center;cursor:pointer;background:var(--surface)}
+.checks input::after{content:"";width:6px;height:11px;border:solid var(--accent-ink);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.checks input:checked{background:var(--accent);border-color:var(--accent)}
+.checks input:checked::after{opacity:1}
+.checks strong{display:block}
+.checks span{color:var(--muted);font-size:.95rem}
+.checks input:checked + div strong{text-decoration:line-through;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.tip{background:var(--mark-soft);border-radius:8px;padding:14px 16px;font-size:.95rem}
+.tip b{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;display:block;margin-bottom:4px}
+
+/* Tools */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.9rem;color:var(--muted);margin-bottom:20px}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tools > *{min-width:0}
+.tgroup{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:12px;align-content:start}
+.tgroup h3{font-size:1.05rem}
+.tgroup > p{color:var(--muted);font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:.8rem;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);display:inline-flex;gap:6px;align-items:center}
+.chip.start{border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+.chip.start::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.chip.daily{box-shadow:inset 0 -2px 0 var(--mark)}
+
+/* Certs */
+.certs{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.certs > *{min-width:0}
+.cert{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:12px;align-content:start}
+.cert.main{border-color:var(--accent);border-width:2px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0}
+.facts div{background:var(--sunk);border-radius:8px;padding:10px;text-align:center}
+.facts b{display:block;font-family:var(--display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.facts span{font-size:.78rem;color:var(--muted)}
+.verdict{display:grid;gap:6px;font-size:.95rem}
+.verdict p{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.verdict .y{color:var(--accent);font-weight:700}
+.verdict .n{color:var(--fail);font-weight:700}
+
+/* Practice */
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.sites > *{min-width:0}
+.site{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:6px;text-decoration:none;color:var(--ink);align-content:start}
+.site:hover{border-color:var(--accent)}
+.site .eyebrow{color:var(--accent)}
+.site span{color:var(--muted);font-size:.92rem}
+.steps{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-weight:600;color:var(--accent);font-size:1.1rem}
+.steps li div{min-width:0}
+.steps strong{display:block;margin-bottom:2px}
+.steps span{color:var(--muted)}
+.repo{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow-x:auto}
+.repo pre{margin:0;padding:16px 20px;font-family:var(--mono);font-size:.82rem;line-height:1.7}
+
+/* Career */
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;margin-top:12px}
+.ladder > *{min-width:0}
+.rung{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:4px}
+.rung:nth-child(1){min-height:150px}.rung:nth-child(2){min-height:180px}.rung:nth-child(3){min-height:210px}.rung:nth-child(4){min-height:240px}.rung:nth-child(5){min-height:270px}
+.rung b{font-family:var(--display);font-size:1.05rem}
+.rung span{font-size:.88rem;color:var(--muted)}
+.journey{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:0}
+.journey li{display:grid;grid-template-columns:110px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line)}
+.journey li div{min-width:0}
+.journey time{font-family:var(--mono);font-size:.82rem;color:var(--muted);padding-top:3px}
+.journey strong{display:block}
+.journey span{color:var(--muted)}
+.journey .lesson{display:block;margin-top:6px;font-size:.95rem;color:var(--ink)}
+.journey .lesson::before{content:"Lição: ";font-weight:700;color:var(--accent)}
+.qa-list{display:grid;gap:12px;margin-top:12px}
+.qa-list details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.qa-list summary{cursor:pointer;padding:16px 20px;font-weight:700}
+.qa-list details p{padding:0 20px 18px;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.two > *{min-width:0}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:10px;align-content:start}
+.box ul{margin:0;padding-left:20px;display:grid;gap:6px}
+
+/* Glossary */
+.search{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.search input{flex:1 1 280px;font:inherit;padding:12px 16px;border:2px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}
+.search input:focus{border-color:var(--accent);outline:none}
+.count{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:0 32px;margin:0}
+.gloss div{padding:16px 0;border-top:1px solid var(--line);min-width:0}
+.gloss dt{font-weight:700;font-family:var(--display);font-size:1.08rem}
+.gloss dt small{font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--muted);margin-left:8px}
+.gloss dd{margin:4px 0 0;color:var(--muted)}
+.empty{color:var(--muted);padding:24px 0}
+
+/* About */
+.about{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start}
+.about > *{min-width:0}
+.avatar{width:96px;height:96px;border-radius:16px;background:var(--accent);color:var(--accent-ink);display:grid;place-content:center;font-family:var(--display);font-weight:800;font-size:2.2rem;box-shadow:8px 8px 0 var(--mark)}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.badge{font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);background:var(--surface);padding:4px 10px;border-radius:99px}
+footer{padding-block:32px;color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .hero-grid,.split,.compare,.level,.tools,.certs,.two{grid-template-columns:1fr}
+  .trio,.sites{grid-template-columns:1fr}
+  .gloss{grid-template-columns:1fr}
+  .ladder{grid-template-columns:1fr}
+  .rung{min-height:0!important}
+  .level{padding:20px}
+  section{padding-block:56px}
+}
+@media (max-width:620px){
+  nav.links{width:100%;overflow-x:auto;flex-wrap:nowrap}
+  .about{grid-template-columns:1fr}
+  .journey li{grid-template-columns:1fr;gap:4px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><span class="dot"></span>Primeiro Passo em QA</a>
+    <nav class="links" aria-label="Seções">
+      <a href="#o-que-e">O que é QA</a>
+      <a href="#trilha">Trilha</a>
+      <a href="#ferramentas">Ferramentas</a>
+      <a href="#certificacoes">Certificações</a>
+      <a href="#pratica">Prática</a>
+      <a href="#carreira">Carreira</a>
+      <a href="#glossario">Glossário</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Qualidade de Software para iniciantes</p>
+      <h1>Do zero à sua <em>primeira vaga</em> de QA.</h1>
+      <p class="lead">Um caminho claro, em etapas, para quem está na faculdade ou mudando de carreira. O que estudar, em que ordem e por quê, contado por quem começou como estagiário e hoje é QA sênior.</p>
+      <div class="cta">
+        <a class="btn" href="#trilha">Começar a trilha</a>
+        <a class="btn ghost" href="#o-que-e">Entender a área primeiro</a>
+      </div>
+    </div>
+    <div class="run" aria-label="Seu progresso na trilha">
+      <div class="run-head"><span>suite: carreira-qa</span><span id="runPct">0%</span></div>
+      <ol id="runList"></ol>
+      <div class="run-foot"><span id="runSummary">0 de 0 itens concluídos</span><span>seu navegador</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="o-que-e">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Antes de tudo</p>
+      <h2>O que um QA faz, de verdade</h2>
+      <p class="lead">QA (Quality Assurance, ou Garantia de Qualidade) é a pessoa que ajuda o time a entregar software que funciona e que faz sentido para quem usa. Ela não só encontra bugs: ajuda a evitar que eles existam.</p>
+    </div>
+
+    <div class="split">
+      <div class="prose">
+        <p>Pense no aplicativo do seu banco. Antes de uma nova função de Pix chegar ao seu celular, alguém precisou perguntar: <mark>e se o valor for zero?</mark> E se a internet cair no meio? E se a pessoa tocar duas vezes no botão de confirmar? E funciona igual no Android e no iPhone?</p>
+        <p>Esse olhar curioso, que imagina o que pode dar errado, é o centro do trabalho de QA. A partir dele vêm as tarefas do dia a dia: entender os requisitos, planejar os testes, executá-los, reportar problemas com clareza e, com o tempo, automatizar o que se repete.</p>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:14px">Um dia comum de QA em time ágil</p>
+        <ol class="day">
+          <li><time>09:30</time>Daily com o time: o que foi testado ontem, o que está travado.</li>
+          <li><time>10:00</time>Leitura das histórias novas e dúvidas sobre critérios de aceite.</li>
+          <li><time>11:00</time>Testes de uma funcionalidade que acabou de ir para homologação.</li>
+          <li><time>14:00</time>Registro de dois bugs no Jira, com passos e evidências.</li>
+          <li><time>15:30</time>Ajuste de um teste automatizado que quebrou na pipeline do Jenkins.</li>
+          <li><time>17:00</time>Reteste de um bug corrigido pelo dev.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Erro, defeito e falha: o primeiro conceito que você precisa</h3>
+      <p class="lead">No dia a dia todo mundo diz "bug", mas entender essa sequência ajuda a pensar como QA:</p>
+      <div class="trio">
+        <div class="term"><b>1 · ERRO</b><h3>Alguém se engana</h3><p>Uma pessoa entende errado a regra ou digita algo errado ao programar. O erro é humano.</p></div>
+        <div class="term"><b>2 · DEFEITO</b><h3>O código fica errado</h3><p>O engano vira um problema dentro do sistema. Ele pode ficar escondido por muito tempo.</p></div>
+        <div class="term"><b>3 · FALHA</b><h3>O usuário percebe</h3><p>Quando o trecho com defeito é executado, o sistema faz algo diferente do esperado.</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">A habilidade nº 1: escrever um bom bug report</h3>
+      <p class="lead">O dev precisa reproduzir o problema sem te chamar no chat. Compare:</p>
+      <div class="compare">
+        <article class="report bad">
+          <header><span>Reprovado</span><span class="mono">BUG-?</span></header>
+          <pre>Título: Login não funciona
+
+O login tá dando erro, arruma aí pfv.</pre>
+        </article>
+        <article class="report good">
+          <header><span>Aprovado</span><span class="mono">BUG-142</span></header>
+          <pre><span class="k">Título:</span> Login exibe erro 500 com e-mail em maiúsculas
+<span class="k">Ambiente:</span> Homologação · Chrome 130 · Windows 11
+<span class="k">Severidade:</span> Alta
+<span class="k">Passos:</span>
+  1. Acessar /login
+  2. Informar "MARIA@TESTE.COM" e senha válida
+  3. Clicar em "Entrar"
+<span class="k">Resultado esperado:</span> Usuária acessa o painel
+<span class="k">Resultado obtido:</span> Tela "Erro 500"
+<span class="k">Evidência:</span> print + log do console anexados
+<span class="k">Obs.:</span> Com e-mail em minúsculas funciona</pre>
+        </article>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Mitos que você vai ouvir por aí</h3>
+      <div class="myths">
+        <details class="myth"><summary>"QA só fica clicando em botão."</summary><p>Clicar é a parte visível. Antes disso vem análise de requisito, escolha de técnica e priorização de riscos. E boa parte dos QAs também programa testes automatizados, consulta bancos de dados, testa APIs e lê logs de servidor.</p></details>
+        <details class="myth"><summary>"QA é só um atalho para virar dev."</summary><p>Muita gente faz essa transição, e tudo bem. Mas QA é uma carreira completa, com níveis até sênior, especialista e liderança, e especializações como mobile, performance e automação.</p></details>
+        <details class="myth"><summary>"A IA vai acabar com a área."</summary><p>A IA já ajuda a gerar casos de teste e scripts, e isso muda o trabalho. Mas alguém ainda precisa decidir o que testar, avaliar riscos e julgar se o resultado faz sentido para o usuário. Quem sabe usar IA a seu favor sai na frente.</p></details>
+        <details class="myth"><summary>"Preciso saber programar antes de começar."</summary><p>Não. Dá para começar pelos fundamentos e pelos testes manuais. A programação entra no Nível 3 da trilha, quando você já entende o que está testando.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trilha" class="alt">
+  <div class="wrap">
+    <div class="trail-top">
+      <div class="sec-head" style="margin-bottom:0">
+        <p class="eyebrow">O caminho</p>
+        <h2>Trilha de aprendizado</h2>
+        <p class="lead">Seis níveis em ordem, montados a partir do que eu realmente uso no trabalho. Marque o que já aprendeu: seu progresso fica salvo neste navegador.</p>
+      </div>
+      <div class="reset-zone" id="resetZone">
+        <button class="linkbtn" id="resetAsk" type="button">Recomeçar a trilha</button>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="levelPanel" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="ferramentas">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Caixa de ferramentas</p>
+      <h2>As ferramentas que passaram pela minha mão</h2>
+      <p class="lead">Ninguém precisa saber todas. Elas estão aqui para você reconhecer os nomes nas vagas e saber por qual começar.</p>
+    </div>
+    <div class="legend">
+      <span class="chip start">Comece por aqui</span>
+      <span class="chip daily">Uso no trabalho atual</span>
+    </div>
+    <div class="tools" id="tools"></div>
+  </div>
+</section>
+
+<section id="certificacoes" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Certificações</p>
+      <h2>Vale a pena tirar certificação?</h2>
+      <p class="lead">Certificação abre portas em processos seletivos e organiza o estudo. Mas ela não substitui prática: um projeto no GitHub mostra mais do que um certificado sozinho.</p>
+    </div>
+    <div class="certs">
+      <article class="cert main">
+        <p class="eyebrow">A mais pedida em vagas de QA</p>
+        <h3 class="h3big">CTFL · Certified Tester Foundation Level</h3>
+        <p>Certificação internacional do ISTQB, aplicada no Brasil pelo BSTQB. Cobre os fundamentos que estão no Nível 1 e parte do Nível 2 desta trilha. A versão atual do programa é a 4.0.</p>
+        <div class="facts">
+          <div><b>40</b><span>questões</span></div>
+          <div><b>60</b><span>minutos</span></div>
+          <div><b>26</b><span>acertos para passar</span></div>
+        </div>
+        <div class="verdict">
+          <p><span class="y">Vale</span><span>se você quer entrar na área e organizar a teoria, ou se as vagas que você mira pedem a certificação.</span></p>
+          <p><span class="n">Espere</span><span>se ainda não sabe se quer seguir em QA. Comece pela trilha, e a prova pode vir depois.</span></p>
+        </div>
+        <div class="tip"><b>COMO EU ESTUDEI</b>Combinei um curso oferecido pela empresa onde eu trabalhava, um curso que comprei por conta própria e o syllabus oficial, que é gratuito. Mas o que fez diferença de verdade foram os simulados: fiz muitos, até acertar com folga. Eles ensinam o jeito como as questões são escritas, e isso pesa tanto quanto o conteúdo.</div>
+      </article>
+      <article class="cert">
+        <p class="eyebrow">Para quem quer entender a nuvem</p>
+        <h3 class="h3big">AWS Certified Cloud Practitioner</h3>
+        <p>Certificação de entrada da Amazon Web Services. Ensina como as aplicações rodam na nuvem, o que ajuda a entender ambientes, deploy e por que um teste falha só em homologação.</p>
+        <div class="verdict">
+          <p><span class="y">Vale</span><span>depois da CTFL, para se destacar entre júniores e conversar melhor com DevOps.</span></p>
+          <p><span class="n">Espere</span><span>se você ainda está nos fundamentos de teste. Não é prioridade para a primeira vaga.</span></p>
+        </div>
+        <div class="tip"><b>OUTROS CAMINHOS</b>Depois da CTFL, o ISTQB tem certificações de nível avançado, como a de Test Automation Engineering e a de Agile Tester. Pense nelas quando já tiver alguma experiência.</div>
+      </article>
+    </div>
+    <p class="muted" style="margin-top:16px;font-size:.92rem">Valores, datas de prova e locais mudam. Confira sempre no site oficial do <a href="https://bstqb.online/" target="_blank" rel="noopener">BSTQB</a> e do <a href="https://aws.amazon.com/certification/certified-cloud-practitioner/" target="_blank" rel="noopener">AWS Training</a>.</p>
+  </div>
+</section>
+
+<section id="pratica">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Mão na massa</p>
+      <h2>Portfólio e prática</h2>
+      <p class="lead">Sem experiência, seu portfólio é a sua experiência. Estes sites foram feitos para treinar testes, então você pode testar à vontade.</p>
+    </div>
+
+    <div class="block" style="margin-top:0">
+      <h3 class="h3big">Onde praticar</h3>
+      <div class="sites">
+        <a class="site" href="https://www.saucedemo.com/" target="_blank" rel="noopener"><p class="eyebrow">Web</p><strong>Sauce Demo</strong><span>Loja fictícia com login, carrinho e checkout. Ótima para casos de teste e primeira automação.</span></a>
+        <a class="site" href="https://the-internet.herokuapp.com/" target="_blank" rel="noopener"><p class="eyebrow">Web</p><strong>The Internet</strong><span>Dezenas de páginas com situações difíceis de automatizar: alertas, iframes, upload, tabelas.</span></a>
+        <a class="site" href="https://automationexercise.com/" target="_blank" rel="noopener"><p class="eyebrow">Web e API</p><strong>Automation Exercise</strong><span>E-commerce completo, com lista de cenários sugeridos e APIs para praticar.</span></a>
+        <a class="site" href="https://serverest.dev/" target="_blank" rel="noopener"><p class="eyebrow">API</p><strong>ServeRest</strong><span>API REST criada pela comunidade brasileira, com documentação em português.</span></a>
+        <a class="site" href="https://restful-booker.herokuapp.com/" target="_blank" rel="noopener"><p class="eyebrow">API</p><strong>Restful Booker</strong><span>API de reservas com bugs de propósito, ideal para treinar o Postman e o RestAssured.</span></a>
+        <a class="site" href="https://github.com/saucelabs/my-demo-app-android" target="_blank" rel="noopener"><p class="eyebrow">Mobile</p><strong>My Demo App</strong><span>App de exemplo da Sauce Labs para Android e iOS, para dar os primeiros passos com Appium.</span></a>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Projeto guiado: seu primeiro portfólio</h3>
+      <p class="lead">Um único projeto bem feito, do manual à automação, conta mais do que dez tutoriais pela metade.</p>
+      <ol class="steps">
+        <li><div><strong>Escolha um sistema e escreva o plano de teste</strong><span>Use o Sauce Demo. Defina o que será testado (login, carrinho, checkout), o que fica de fora e quais riscos você enxerga.</span></div></li>
+        <li><div><strong>Escreva 15 a 20 casos de teste em Gherkin</strong><span>Inclua caminhos felizes e negativos: senha errada, carrinho vazio, campos obrigatórios em branco.</span></div></li>
+        <li><div><strong>Execute e reporte os bugs que encontrar</strong><span>O site tem usuários com problemas propositais. Escreva os bug reports no modelo "Aprovado" da seção O que é QA.</span></div></li>
+        <li><div><strong>Automatize os cenários principais</strong><span>Com Selenium e Java, usando Page Objects e Cucumber para ligar os cenários Gherkin ao código.</span></div></li>
+        <li><div><strong>Adicione testes de API</strong><span>Crie uma coleção no Postman para o ServeRest e, depois, automatize os mesmos testes com RestAssured.</span></div></li>
+        <li><div><strong>Rode tudo numa pipeline e capriche no README</strong><span>Configure o GitHub Actions para rodar os testes a cada push e explique no README como executar o projeto.</span></div></li>
+      </ol>
+      <p class="eyebrow" style="margin-top:20px">Estrutura sugerida do repositório</p>
+      <div class="repo"><pre>qa-portfolio-saucedemo/
+├── README.md               ← o que é, como rodar, prints dos resultados
+├── docs/
+│   ├── plano-de-teste.md
+│   ├── casos-de-teste.feature
+│   └── bugs-encontrados.md
+├── src/test/java/
+│   ├── pages/              ← Page Objects (LoginPage, CartPage…)
+│   ├── steps/              ← steps do Cucumber
+│   └── api/                ← testes RestAssured
+└── .github/workflows/tests.yml</pre></div>
+    </div>
+  </div>
+</section>
+
+<section id="carreira" class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Mercado de trabalho</p>
+      <h2>Mercado e carreira</h2>
+      <p class="lead">Como a carreira costuma ser organizada, como uma trajetória real acontece na prática e como se preparar para a primeira entrevista.</p>
+    </div>
+
+    <div class="block" style="margin-top:0">
+      <h3 class="h3big">Os degraus mais comuns</h3>
+      <p class="muted">Os nomes mudam de empresa para empresa. QA Analyst, QA Engineer e SDET podem aparecer em qualquer nível.</p>
+      <div class="ladder">
+        <div class="rung"><p class="eyebrow">01</p><b>Estágio</b><span>Executa testes guiados e aprende o processo do time.</span></div>
+        <div class="rung"><p class="eyebrow">02</p><b>Júnior</b><span>Escreve e executa casos de teste e reporta bugs com autonomia crescente.</span></div>
+        <div class="rung"><p class="eyebrow">03</p><b>Pleno</b><span>Define estratégias de teste e automatiza com independência.</span></div>
+        <div class="rung"><p class="eyebrow">04</p><b>Sênior</b><span>Cria frameworks, melhora processos e orienta pessoas.</span></div>
+        <div class="rung"><p class="eyebrow">05</p><b>Lead ou especialista</b><span>Lidera a qualidade de vários times ou vira referência técnica.</span></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Uma trajetória real: do estágio ao sênior</h3>
+      <p class="lead">Os degraus acima, na prática. Este foi o meu caminho, com o que cada etapa me ensinou.</p>
+      <ol class="journey">
+        <li><time>2018–2020</time><div><strong>Estagiário de Qualidade de Software · STI da UFBA</strong><span>Documentação de testes, testes manuais, consultas no PostgreSQL e primeira automação com Selenium e Java.</span><span class="lesson">o estágio na própria universidade foi a porta de entrada mais acessível.</span></div></li>
+        <li><time>2021</time><div><strong>Técnico de Qualidade de Sistemas · EISA</strong><span>Automação com Ruby, Cucumber e Selenium em sistemas de telecom de missão crítica, análise de logs em servidores Linux, testes de API com Postman e SoapUI.</span><span class="lesson">sistemas críticos ensinam a dar valor a evidência e a log.</span></div></li>
+        <li><time>2021–2022</time><div><strong>QA Analyst Júnior · Juntos Somos Mais</strong><span>BDD, testes de API, testes mobile no BrowserStack e criação de um novo framework de automação com Cypress.</span><span class="lesson">propor melhoria de processo também é trabalho de QA.</span></div></li>
+        <li><time>2022–2024</time><div><strong>QA Engineer Pleno · Sysmap Solutions</strong><span>Automação mobile iOS e Android com Appium e Java no projeto dos apps do Itaú, mais automação web com Selenium e GitFlow.</span><span class="lesson">automação mobile é um nicho com muita demanda.</span></div></li>
+        <li><time>2024–hoje</time><div><strong>QA Engineer Sênior · GFT Technologies</strong><span>Estratégias de teste de front-end e back-end, gestão de casos no Jira e Zephyr, cenários em Gherkin, automação de API com Mocha e Pactum, testes de API no Bruno, pipelines no Jenkins com Bitbucket, dados no DynamoDB e testes de carga com JMeter.</span><span class="lesson">quanto mais ferramentas você conhece, mais rápido aprende a próxima.</span></div></li>
+      </ol>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Currículo e LinkedIn sem experiência</h3>
+      <div class="two">
+        <div class="box">
+          <h3>Faça</h3>
+          <ul>
+            <li>Uma seção "Projetos" com o link do portfólio no GitHub.</li>
+            <li>Verbos de ação: "automatizei 20 cenários", "reportei 12 bugs".</li>
+            <li>As ferramentas que você realmente usou, com o contexto.</li>
+            <li>Título do LinkedIn claro, como "QA Júnior | Testes manuais e de API".</li>
+            <li>Inglês no currículo, mesmo intermediário. Ele abre muitas vagas.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Evite</h3>
+          <ul>
+            <li>Listar 30 ferramentas que você só viu em vídeo.</li>
+            <li>Currículo com mais de duas páginas.</li>
+            <li>Objetivo genérico como "busco crescimento profissional".</li>
+            <li>Se candidatar só a vagas em que você cumpre 100% dos requisitos.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:12px;font-size:.92rem">Faixas salariais mudam rápido e variam por região e modelo de contratação. Consulte dados atualizados no <a href="https://www.glassdoor.com.br/" target="_blank" rel="noopener">Glassdoor</a> e em pesquisas salariais da comunidade de tecnologia.</p>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Perguntas comuns em entrevistas para júnior</h3>
+      <div class="qa-list">
+        <details><summary>Qual a diferença entre severidade e prioridade?</summary><p>Severidade é o impacto técnico do bug. Prioridade é a urgência de corrigir, definida pelo negócio. Dê um exemplo: um erro de digitação no logo da página inicial tem severidade baixa e prioridade alta.</p></details>
+        <details><summary>Como você testaria um campo de login?</summary><p>Mostre método, não só ideias soltas. Fale de caminho feliz, senha errada, campos vazios, limites de tamanho, maiúsculas e minúsculas, bloqueio após tentativas, segurança e acessibilidade.</p></details>
+        <details><summary>O que você faz quando o dev diz que "não é bug"?</summary><p>Volte ao critério de aceite e à evidência. Se a regra não estiver clara, leve a dúvida para o PO. O objetivo é o produto certo, não ganhar a discussão.</p></details>
+        <details><summary>O que é teste de regressão e quando automatizar?</summary><p>É testar de novo o que já funcionava depois de uma mudança. Vale automatizar o que é repetitivo, estável e importante para o negócio.</p></details>
+        <details><summary>Me mostra algo que você testou.</summary><p>Aqui o portfólio faz a diferença. Tenha o link do GitHub aberto e saiba explicar cada escolha que fez no projeto.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="glossario">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Consulta rápida</p>
+      <h2>Glossário de QA</h2>
+      <p class="lead">Ouviu um termo na daily e não entendeu? Procure aqui.</p>
+    </div>
+    <div class="search">
+      <label for="q" class="eyebrow" style="flex-basis:100%">Buscar termo</label>
+      <input id="q" type="search" placeholder="Ex.: regressão, smoke, Appium" autocomplete="off">
+      <span class="count" id="gcount"></span>
+    </div>
+    <dl class="gloss" id="gloss"></dl>
+    <p class="empty" id="gempty" hidden>Nenhum termo encontrado. Tente uma palavra mais curta.</p>
+  </div>
+</section>
+
+<section id="sobre" class="alt" style="border-bottom:0">
+  <div class="wrap about">
+    <div class="avatar" aria-hidden="true">MB</div>
+    <div class="prose">
+      <p class="eyebrow">Quem escreve</p>
+      <h2>Oi, eu sou o Matheus Barbosa.</h2>
+      <p>Sou QA Engineer Sênior na GFT Technologies e trabalho com Qualidade de Software desde 2018, quando comecei como estagiário na Universidade Federal da Bahia. Passei por testes manuais, automação web e mobile, testes de API, testes de carga com JMeter e por sistemas de telecom, varejo e bancos.</p>
+      <p>Sou formado em Computação pela UFBA e faço MBA na FIAP. Criei este site para ser o guia que eu queria ter tido quando comecei: direto, honesto e em português.</p>
+      <p>Se algo aqui não ficou claro, é sinal de que eu preciso explicar melhor. Me chama no <a href="https://www.linkedin.com/in/matheusbgs" target="_blank" rel="noopener">LinkedIn</a>.</p>
+      <div class="badges">
+        <span class="badge">CTFL · ISTQB</span>
+        <span class="badge">AWS Cloud Practitioner</span>
+        <span class="badge">AI Literacy</span>
+        <span class="badge">Selenium · Java</span>
+        <span class="badge">Appium</span>
+        <span class="badge">RestAssured</span>
+        <span class="badge">Pactum</span>
+        <span class="badge">Mocha</span>
+        <span class="badge">JMeter</span>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Primeiro Passo em QA · por Matheus Barbosa · conteúdo revisado em outubro de 2026</div>
+</footer>
+
+<script>
+const LEVELS = [
+  { id:"fundamentos", code:"CT-001", name:"Fundamentos", time:"3 a 4 semanas", tool:"Syllabus CTFL 4.0 (gratuito no site do BSTQB)",
+    goal:"Entender por que testamos, o vocabulário básico e onde o teste entra no desenvolvimento.",
+    tip:"Não decore definições. Para cada conceito, pense num exemplo de um app que você usa todo dia.",
+    items:[
+      ["Os 7 princípios de teste","Por exemplo: testes mostram a presença de defeitos, não a ausência deles."],
+      ["Erro, defeito e falha","A pessoa erra, o código fica com defeito, o usuário vê a falha."],
+      ["Ciclo de vida do software","Onde o teste entra em cada fase, do requisito à produção."],
+      ["Níveis de teste","Unidade, integração, sistema e aceitação, e quem costuma fazer cada um."],
+      ["Testes funcionais e não funcionais","O que o sistema faz versus como ele se comporta (velocidade, segurança, usabilidade)."],
+      ["Técnicas de caixa-preta","Partição de equivalência, valor-limite e tabela de decisão."],
+    ]},
+  { id:"manual", code:"CT-002", name:"Prática manual", time:"4 a 6 semanas", tool:"Jira com Zephyr ou Qase",
+    goal:"Planejar, executar e documentar testes como num time de verdade.",
+    tip:"Comecei escrevendo documentação de testes no estágio. Parece simples, mas é o que mostra se você entendeu o sistema.",
+    items:[
+      ["Escrever casos de teste","Pré-condição, passos, dados e resultado esperado."],
+      ["Gerenciar testes numa ferramenta","Organizar casos e execuções no Jira com Zephyr ou no Qase."],
+      ["Escrever um bom bug report","Título claro, passos para reproduzir, esperado versus obtido e evidência."],
+      ["Testes exploratórios","Explorar o sistema com um objetivo e tempo definido, anotando o que encontrar."],
+      ["Ágil e Scrum","Sprint, daily, refinamento, review e o papel do QA em cada um."],
+      ["BDD e Gherkin","Escrever cenários no formato Dado, Quando, Então, que servem para teste manual e automatizado."],
+    ]},
+  { id:"tecnico", code:"CT-003", name:"Base técnica", time:"6 a 8 semanas", tool:"Java + Postman",
+    goal:"Ganhar a base técnica que separa um QA júnior comum de um que se destaca.",
+    tip:"Recomendo Java como primeira linguagem: é a mais pedida em vagas de automação, sobretudo em bancos e grandes consultorias.",
+    items:[
+      ["Lógica de programação com Java","Variáveis, condições, laços, métodos e classes."],
+      ["Git e GitFlow","Clonar, commitar, criar branches no padrão GitFlow e abrir um pull request."],
+      ["SQL básico","SELECT, WHERE e JOIN para conferir se o dado foi salvo certo no banco (PostgreSQL é uma boa escolha)."],
+      ["HTTP e APIs REST","Verbos (GET, POST, PUT, DELETE), status codes e JSON."],
+      ["Testar APIs no Postman ou Insomnia","Montar requisições, validar respostas e organizar coleções."],
+      ["Linux e leitura de logs","Comandos básicos de terminal e como achar a causa de um erro no log do servidor."],
+    ]},
+  { id:"web", code:"CT-004", name:"Automação web e API", time:"8 a 12 semanas", tool:"Selenium WebDriver + RestAssured",
+    goal:"Automatizar testes repetitivos de interface e de API, e entender onde a automação vale a pena.",
+    tip:"Escolha uma stack e vá até o fim com ela. Já usei Selenium, Cypress, TestCafe e Robot Framework: depois da primeira, as outras ficam fáceis.",
+    items:[
+      ["Pirâmide de testes","Por que ter muitos testes de unidade e de API e poucos de interface."],
+      ["JUnit e o primeiro teste em Java","Estrutura de um teste, asserções e execução pelo Maven."],
+      ["Selenium WebDriver","Abrir páginas, localizar elementos com seletores estáveis e validar resultados."],
+      ["Page Objects","Separar telas e ações em classes para o projeto crescer sem virar bagunça."],
+      ["Cucumber","Ligar os cenários em Gherkin ao código de automação."],
+      ["Automação de API com RestAssured","Validar status, corpo e contrato de uma API por código."],
+    ]},
+  { id:"mobile", code:"CT-005", name:"Mobile e pipeline", time:"6 a 10 semanas", tool:"Appium + Jenkins",
+    goal:"Testar apps Android e iOS e colocar a automação para rodar sozinha a cada mudança.",
+    tip:"Automação mobile foi o que mais me diferenciou no mercado. Pouca gente domina, e apps de banco e varejo precisam muito.",
+    items:[
+      ["Diferenças entre Android e iOS","Permissões, gestos, versões do sistema e variedade de aparelhos."],
+      ["Emuladores e dispositivos reais","Android Studio, simulador do Xcode e quando usar cada um."],
+      ["Appium com Java","Instalar o Appium, inspecionar elementos e escrever o primeiro teste mobile."],
+      ["Testes em nuvem de dispositivos","Rodar testes em vários aparelhos com BrowserStack."],
+      ["CI/CD com Jenkins ou GitLab","Configurar uma pipeline que roda a suíte de testes automaticamente."],
+      ["Relatórios e evidências","Gerar relatórios de execução que o time consiga ler e confiar."],
+    ]},
+  { id:"especializacoes", code:"CT-006", name:"Especializações", time:"contínuo", tool:"JMeter",
+    goal:"Conhecer os caminhos para se aprofundar depois da primeira vaga.",
+    tip:"Você não precisa dominar nada disso para conseguir a primeira vaga. A meta aqui é saber que existe e escolher o que te interessa.",
+    items:[
+      ["Testes de performance com JMeter","Carga, estresse e pico: como o sistema se comporta com muita gente usando ao mesmo tempo."],
+      ["Robot Framework","Framework de automação por palavras-chave, comum em empresas grandes."],
+      ["Cloud com AWS","Onde as aplicações rodam e o básico de ambientes na nuvem."],
+      ["Noções de segurança","Os riscos mais comuns em aplicações web, como os do OWASP Top 10."],
+      ["Acessibilidade","Testar se pessoas com deficiência conseguem usar o sistema."],
+      ["QA com IA","Usar IA para gerar ideias de teste e scripts, revisando tudo com olhar crítico."],
+    ]},
+];
+
+const TOOLS = [
+  { name:"Gestão de testes e bugs", desc:"Onde você organiza casos de teste, execuções e defeitos.",
+    items:[["Jira","start daily"],["Zephyr","daily"],["Qase",""],["Quality Center",""]] },
+  { name:"Testes de API", desc:"Para testar o back-end sem depender da tela.",
+    items:[["Postman","start"],["Bruno","daily"],["Pactum","daily"],["Insomnia",""],["SoapUI",""],["RestAssured",""]] },
+  { name:"Automação web", desc:"Simulam um usuário usando o navegador.",
+    items:[["Selenium · Java","start"],["Robot Framework",""],["Cypress",""],["TestCafe",""]] },
+  { name:"Automação mobile", desc:"Para apps Android e iOS.",
+    items:[["Appium",""],["BrowserStack",""]] },
+  { name:"BDD e frameworks de teste", desc:"Escrita de cenários e estrutura dos testes automatizados.",
+    items:[["Gherkin","start daily"],["Mocha","daily"],["Cucumber",""],["JUnit",""],["Capybara · Ruby",""]] },
+  { name:"Versionamento e CI/CD", desc:"Guardam o código e rodam os testes automaticamente.",
+    items:[["Git","start daily"],["Bitbucket","daily"],["Jenkins","daily"],["GitHub",""],["GitLab",""],["GitFlow",""]] },
+  { name:"Dados e servidores", desc:"Para conferir o que acontece por trás da tela.",
+    items:[["SQL · PostgreSQL","start"],["DynamoDB","daily"],["Linux · logs",""]] },
+  { name:"Performance", desc:"Para medir como o sistema se comporta sob carga.",
+    items:[["JMeter",""]] },
+  { name:"Nuvem", desc:"Onde as aplicações e os ambientes de teste rodam.",
+    items:[["AWS","daily"]] },
+];
+
+const STORE_KEY = "pp-qa-progress-v2";
+let done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch(e) { done = {}; }
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(done)); } catch(e) {} };
+let current = 0;
+
+const key = (l,i) => LEVELS[l].id + ":" + i;
+const levelDone = l => LEVELS[l].items.filter((_,i)=>done[key(l,i)]).length;
+
+function renderRun(){
+  let total = 0, ok = 0;
+  const rows = LEVELS.map((lv,l)=>{
+    const d = levelDone(l), n = lv.items.length; total += n; ok += d;
+    const st = d===n ? ["pass","PASSED"] : d>0 ? ["prog",d+"/"+n] : ["todo","PENDENTE"];
+    return `<li><span class="id">${lv.code}</span><span>${lv.name}</span><span class="st ${st[0]}">${st[1]}</span></li>`;
+  }).join("");
+  const pct = Math.round(ok/total*100);
+  document.getElementById("runList").innerHTML = rows + `<li style="grid-template-columns:1fr"><div class="bar"><i style="width:${pct}%"></i></div></li>`;
+  document.getElementById("runPct").textContent = pct + "%";
+  document.getElementById("runSummary").textContent = `${ok} de ${total} itens concluídos`;
+}
+
+function renderTabs(){
+  document.getElementById("tabs").innerHTML = LEVELS.map((lv,l)=>{
+    const d = levelDone(l), n = lv.items.length;
+    return `<button class="tab" role="tab" type="button" id="tab-${l}" aria-selected="${l===current}" aria-controls="levelPanel" data-l="${l}">
+      <small>Nível ${l+1} · ${d===n?'<span class="done-pip">concluído</span>':d+'/'+n}</small>${lv.name}</button>`;
+  }).join("");
+}
+
+function renderLevel(){
+  const lv = LEVELS[current];
+  const panel = document.getElementById("levelPanel");
+  panel.innerHTML = `
+    <div class="level">
+      <div class="meta">
+        <p class="eyebrow">${lv.code} · Nível ${current+1}</p>
+        <h3 style="font-size:1.6rem">${lv.name}</h3>
+        <p>${lv.goal}</p>
+        <dl>
+          <div><dt>Tempo estimado</dt><dd>${lv.time}</dd></div>
+          <div><dt>Ferramenta recomendada</dt><dd>${lv.tool}</dd></div>
+        </dl>
+        <div class="tip"><b>DICA DE QUEM JÁ PASSOU</b>${lv.tip}</div>
+      </div>
+      <ul class="checks">
+        ${lv.items.map((it,i)=>`<li><label for="c-${lv.id}-${i}">
+          <input type="checkbox" id="c-${lv.id}-${i}" data-k="${key(current,i)}" ${done[key(current,i)]?"checked":""}>
+          <div><strong>${it[0]}</strong><span>${it[1]}</span></div></label></li>`).join("")}
+      </ul>
+    </div>`;
+  panel.setAttribute("aria-labelledby","tab-"+current);
+}
+
+function renderAll(){ renderRun(); renderTabs(); renderLevel(); }
+
+const tabsEl = document.getElementById("tabs");
+tabsEl.addEventListener("click", e=>{
+  const b = e.target.closest(".tab"); if(!b) return;
+  current = +b.dataset.l; renderTabs(); renderLevel();
+  document.getElementById("tab-"+current).focus();
+});
+tabsEl.addEventListener("keydown", e=>{
+  if(e.key!=="ArrowRight" && e.key!=="ArrowLeft") return;
+  current = (current + (e.key==="ArrowRight"?1:-1) + LEVELS.length) % LEVELS.length;
+  renderTabs(); renderLevel(); document.getElementById("tab-"+current).focus();
+});
+document.getElementById("levelPanel").addEventListener("change", e=>{
+  const k = e.target.dataset.k; if(!k) return;
+  if(e.target.checked) done[k] = true; else delete done[k];
+  save(); renderRun(); renderTabs();
+});
+
+const zone = document.getElementById("resetZone");
+zone.addEventListener("click", e=>{
+  if(e.target.id==="resetAsk"){
+    zone.innerHTML = `<span>Apagar todo o progresso?</span>
+      <button class="linkbtn danger" id="resetYes" type="button">Sim, apagar</button>
+      <button class="linkbtn" id="resetNo" type="button">Cancelar</button>`;
+  } else if(e.target.id==="resetYes" || e.target.id==="resetNo"){
+    if(e.target.id==="resetYes"){ done = {}; save(); renderAll(); }
+    zone.innerHTML = `<button class="linkbtn" id="resetAsk" type="button">Recomeçar a trilha</button>`;
+  }
+});
+
+document.getElementById("tools").innerHTML = TOOLS.map(g=>`
+  <div class="tgroup"><h3>${g.name}</h3><p>${g.desc}</p>
+    <div class="chips">${g.items.map(t=>`<span class="chip ${t[1]}">${t[0]}</span>`).join("")}</div>
+  </div>`).join("");
+
+const GLOSS = [
+  ["Bug","Nome popular para um defeito: algo no sistema que não funciona como deveria.","geral"],
+  ["Erro, defeito e falha","Erro é o engano humano, defeito é o problema no código, falha é o que o usuário vê acontecer.","CTFL"],
+  ["Caso de teste","Roteiro com pré-condições, passos, dados e resultado esperado para verificar algo específico.","manual"],
+  ["Cenário de teste","Situação de alto nível a ser testada, como 'login com senha expirada'. Um cenário pode gerar vários casos.","manual"],
+  ["Plano de teste","Documento que define o que será testado, como, por quem, com quais recursos e prazos.","processo"],
+  ["Evidência","Print, vídeo ou log que comprova o resultado de um teste ou a existência de um bug.","manual"],
+  ["Critério de aceite","Condições que uma história precisa cumprir para ser considerada pronta pelo time e pelo cliente.","ágil"],
+  ["Gherkin / BDD","Formato de escrita de cenários com Dado, Quando, Então, que aproxima negócio, dev e QA.","ágil"],
+  ["Teste de regressão","Testar de novo o que já funcionava, para garantir que uma mudança nova não quebrou nada.","tipo"],
+  ["Smoke test","Teste rápido das funções principais, para saber se a versão está estável o bastante para testar a fundo.","tipo"],
+  ["Sanity test","Verificação rápida e focada depois de uma correção, para confirmar que aquele ponto específico funciona.","tipo"],
+  ["Reteste","Executar de novo o teste que encontrou um bug, depois que ele foi corrigido.","tipo"],
+  ["Teste exploratório","Testar aprendendo o sistema ao mesmo tempo, guiado por um objetivo e com tempo definido.","manual"],
+  ["Teste end-to-end (E2E)","Teste que percorre um fluxo completo, do começo ao fim, como um usuário faria.","tipo"],
+  ["Caixa-preta","Testar pelo comportamento, sem olhar o código. Foco em entradas e saídas.","técnica"],
+  ["Caixa-branca","Testar com base na estrutura interna do código, como caminhos e condições.","técnica"],
+  ["Partição de equivalência","Dividir as entradas em grupos que o sistema trata igual e testar um valor de cada grupo.","técnica"],
+  ["Análise de valor-limite","Testar nas bordas das faixas válidas, como 17, 18 e 19 anos para uma regra de maioridade.","técnica"],
+  ["Severidade","O tamanho do impacto técnico de um bug no sistema.","bugs"],
+  ["Prioridade","A urgência para corrigir um bug, definida pelo negócio. Nem todo bug grave é urgente, e vice-versa.","bugs"],
+  ["Ambiente de homologação","Cópia do sistema, parecida com produção, onde se testa antes de liberar para os usuários. Também chamado de staging.","ambientes"],
+  ["Produção","O ambiente real, usado pelos clientes.","ambientes"],
+  ["Pirâmide de testes","Modelo que sugere muitos testes de unidade, alguns de integração e poucos de interface.","automação"],
+  ["Flaky test","Teste automatizado instável, que às vezes passa e às vezes falha sem mudança no código.","automação"],
+  ["Seletor","Forma de localizar um elemento na página para um teste automatizado interagir com ele, como id, CSS ou XPath.","automação"],
+  ["Page Object","Padrão que separa os elementos e ações de cada tela em uma classe, deixando os testes mais organizados.","automação"],
+  ["Appium","Ferramenta open source para automatizar apps Android e iOS, usando a mesma ideia do Selenium.","mobile"],
+  ["Emulador","Programa que simula um celular no computador, usado para testar apps sem um aparelho físico.","mobile"],
+  ["GitFlow","Modelo de organização de branches no Git, com branches de feature, develop, release e main.","devops"],
+  ["CI/CD","Integração e entrega contínuas: o código é testado e publicado automaticamente a cada mudança.","devops"],
+  ["Pipeline","Sequência automática de etapas, como build, testes e deploy, que roda a cada alteração no código.","devops"],
+  ["API","Interface que permite que sistemas conversem entre si, geralmente trocando dados em JSON.","técnico"],
+  ["Status code","Código numérico da resposta HTTP. 200 é sucesso, 404 é não encontrado, 500 é erro no servidor.","técnico"],
+  ["Log","Registro do que o sistema fez. Ler logs ajuda a achar a causa de um erro.","técnico"],
+  ["Teste de carga","Medir como o sistema se comporta com o volume de usuários esperado.","performance"],
+  ["Teste de estresse","Levar o sistema além do limite esperado para descobrir onde e como ele quebra.","performance"],
+  ["Shift-left","Trazer a qualidade para o início do desenvolvimento, testando e revisando requisitos cedo.","processo"],
+  ["Definition of Done","Lista de condições que o time combina para considerar qualquer tarefa realmente pronta.","ágil"],
+];
+
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+function renderGloss(q=""){
+  const nq = norm(q.trim());
+  const list = GLOSS.filter(g=>!nq || norm(g[0]+" "+g[1]+" "+g[2]).includes(nq))
+                    .sort((a,b)=>a[0].localeCompare(b[0],"pt"));
+  document.getElementById("gloss").innerHTML = list.map(g=>`<div><dt>${g[0]}<small>${g[2]}</small></dt><dd>${g[1]}</dd></div>`).join("");
+  document.getElementById("gempty").hidden = list.length>0;
+  document.getElementById("gcount").textContent = `${list.length} de ${GLOSS.length} termos`;
+}
+document.getElementById("q").addEventListener("input", e=>renderGloss(e.target.value));
+
+renderAll(); renderGloss();
+</script>
+</body>
+</html>
