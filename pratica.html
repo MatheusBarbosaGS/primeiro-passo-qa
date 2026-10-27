@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Prática · Primeiro Passo em QA</title>
-<meta name="description" content="Sites para treinar testes e um projeto guiado para montar seu primeiro portfólio.">
+<meta name="description" content="Sites para treinar, um modelo de bug report e um projeto guiado para montar seu primeiro portfólio.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Prática · Primeiro Passo em QA">
-<meta property="og:description" content="Sites para treinar testes e um projeto guiado para montar seu primeiro portfólio.">
+<meta property="og:description" content="Sites para treinar, um modelo de bug report e um projeto guiado para montar seu primeiro portfólio.">
 <meta property="og:locale" content="pt_BR">
 <meta name="author" content="Matheus Barbosa">
 <meta name="theme-color" content="#0B7A5C">
@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 <header class="top">
@@ -36,7 +37,7 @@
 <main>
 <section class="page-head">
   <div class="wrap sec-head" style="margin-bottom:0">
-    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Prática</span></p>
+    <div class="crumb-row"><p class="crumbs"><a href="/">Início</a><span>/</span><span>Prática</span></p><a class="suite-mini" id="suiteMini" href="/#trilha"><span>suite: carreira-qa</span><span class="go">ver trilha →</span></a></div>
     <p class="eyebrow">Mão na massa</p>
       <h1>Portfólio e prática</h1>
       <p class="lead">Sem experiência, seu portfólio é a sua experiência. Estes sites foram feitos para treinar testes, então você pode testar à vontade.</p>
@@ -63,10 +64,10 @@
       <ol class="steps">
         <li><div><strong>Escolha um sistema e escreva o plano de teste</strong><span>Use o Sauce Demo. Defina o que será testado (login, carrinho, checkout), o que fica de fora e quais riscos você enxerga.</span></div></li>
         <li><div><strong>Escreva 15 a 20 casos de teste em Gherkin</strong><span>Inclua caminhos felizes e negativos: senha errada, carrinho vazio, campos obrigatórios em branco.</span></div></li>
-        <li><div><strong>Execute e reporte os bugs que encontrar</strong><span>O site tem usuários com problemas propositais. Escreva os bug reports no modelo "Aprovado" da seção <a href="/#o-que-e">O que é QA</a>.</span></div></li>
+        <li><div><strong>Execute e reporte os bugs que encontrar</strong><span>O site tem usuários com problemas propositais. Escreva os bug reports seguindo o <a href="#bug-report">modelo "Aprovado"</a> logo abaixo.</span></div></li>
         <li><div><strong>Automatize os cenários principais</strong><span>Com Selenium e Java, usando Page Objects e Cucumber para ligar os cenários Gherkin ao código.</span></div></li>
         <li><div><strong>Adicione testes de API</strong><span>Crie uma coleção no Postman para o ServeRest e, depois, automatize os mesmos testes com RestAssured.</span></div></li>
-        <li><div><strong>Rode tudo numa pipeline e capriche no README</strong><span>Configure o GitHub Actions para rodar os testes a cada push e explique no README como executar o projeto.</span></div></li>
+        <li><div><strong>Rode tudo numa pipeline e capriche no README</strong><span>Configure o GitHub Actions para rodar os testes a cada push e explique no README como executar o projeto. Uso o GitHub Actions aqui porque é gratuito e fica junto do seu portfólio. Nas empresas é comum encontrar Jenkins ou GitLab, que aparecem na trilha, e a lógica é a mesma.</span></div></li>
       </ol>
       <p class="eyebrow" style="margin-top:20px">Estrutura sugerida do repositório</p>
       <div class="repo"><pre>qa-portfolio-saucedemo/
@@ -80,6 +81,32 @@
 │   ├── steps/              ← steps do Cucumber
 │   └── api/                ← testes RestAssured
 └── .github/workflows/tests.yml</pre></div>
+    </div>
+    <div class="block" id="bug-report">
+      <h3 class="h3big">Modelo de bug report</h3>
+      <p class="lead">Escrever um bom bug report é a habilidade nº 1 de um QA: o dev precisa reproduzir o problema sem te chamar no chat. Compare:</p>
+      <div class="compare">
+        <article class="report bad">
+          <header><span>Reprovado</span><span class="mono">BUG-?</span></header>
+          <pre>Título: Login não funciona
+
+O login tá dando erro, arruma aí pfv.</pre>
+        </article>
+        <article class="report good">
+          <header><span>Aprovado</span><span class="mono">BUG-142</span></header>
+          <pre><span class="k">Título:</span> Login exibe erro 500 com e-mail em maiúsculas
+<span class="k">Ambiente:</span> Homologação · Chrome 130 · Windows 11
+<span class="k">Severidade:</span> Alta
+<span class="k">Passos:</span>
+  1. Acessar /login
+  2. Informar "MARIA@TESTE.COM" e senha válida
+  3. Clicar em "Entrar"
+<span class="k">Resultado esperado:</span> Usuária acessa o painel
+<span class="k">Resultado obtido:</span> Tela "Erro 500"
+<span class="k">Evidência:</span> print + log do console anexados
+<span class="k">Obs.:</span> Com e-mail em minúsculas funciona</pre>
+        </article>
+      </div>
     </div>
     <a class="next" href="/carreira"><span><span class="eyebrow">Próxima página</span><strong>Carreira</strong></span><span class="go">Continuar →</span></a>
   </div>
@@ -96,9 +123,5 @@
     <p>Primeiro Passo em QA · por <a href="https://www.linkedin.com/in/matheusbgs" target="_blank" rel="noopener">Matheus Barbosa</a> · conteúdo revisado em outubro de 2026</p>
   </div>
 </footer>
-<script>
-(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
-
-</script>
 </body>
 </html>

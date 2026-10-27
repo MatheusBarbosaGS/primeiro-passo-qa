@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 <header class="top">
@@ -69,13 +70,14 @@
       <div>
         <p class="eyebrow" style="margin-bottom:14px">Um dia comum de QA em time ágil</p>
         <ol class="day">
-          <li><time>09:30</time>Daily com o time: o que foi testado ontem, o que está travado.</li>
-          <li><time>10:00</time>Leitura das histórias novas e dúvidas sobre critérios de aceite.</li>
-          <li><time>11:00</time>Testes de uma funcionalidade que acabou de ir para homologação.</li>
-          <li><time>14:00</time>Registro de dois bugs no Jira, com passos e evidências.</li>
-          <li><time>15:30</time>Ajuste de um teste automatizado que quebrou na pipeline do Jenkins.</li>
-          <li><time>17:00</time>Reteste de um bug corrigido pelo dev.</li>
+          <li><time>09:30</time><a href="/glossario#daily">Daily</a> com o time: o que foi testado ontem, o que está travado.</li>
+          <li><time>10:00</time>Leitura das histórias novas e dúvidas sobre <a href="/glossario#criterio-de-aceite">critérios de aceite</a>.</li>
+          <li><time>11:00</time>Testes de uma funcionalidade que acabou de ir para <a href="/glossario#ambiente-de-homologacao">homologação</a>.</li>
+          <li><time>14:00</time>Registro de dois bugs no Jira, com passos e <a href="/glossario#evidencia">evidências</a>.</li>
+          <li><time>15:30</time>Ajuste de um teste automatizado que quebrou na <a href="/glossario#pipeline">pipeline</a> do Jenkins.</li>
+          <li><time>17:00</time><a href="/glossario#reteste">Reteste</a> de um bug corrigido pelo dev.</li>
         </ol>
+        <p class="day-note">Termos sublinhados levam ao glossário.</p>
       </div>
     </div>
 
@@ -89,32 +91,6 @@
       </div>
     </div>
 
-    <div class="block">
-      <h3 class="h3big">A habilidade nº 1: escrever um bom bug report</h3>
-      <p class="lead">O dev precisa reproduzir o problema sem te chamar no chat. Compare:</p>
-      <div class="compare">
-        <article class="report bad">
-          <header><span>Reprovado</span><span class="mono">BUG-?</span></header>
-          <pre>Título: Login não funciona
-
-O login tá dando erro, arruma aí pfv.</pre>
-        </article>
-        <article class="report good">
-          <header><span>Aprovado</span><span class="mono">BUG-142</span></header>
-          <pre><span class="k">Título:</span> Login exibe erro 500 com e-mail em maiúsculas
-<span class="k">Ambiente:</span> Homologação · Chrome 130 · Windows 11
-<span class="k">Severidade:</span> Alta
-<span class="k">Passos:</span>
-  1. Acessar /login
-  2. Informar "MARIA@TESTE.COM" e senha válida
-  3. Clicar em "Entrar"
-<span class="k">Resultado esperado:</span> Usuária acessa o painel
-<span class="k">Resultado obtido:</span> Tela "Erro 500"
-<span class="k">Evidência:</span> print + log do console anexados
-<span class="k">Obs.:</span> Com e-mail em minúsculas funciona</pre>
-        </article>
-      </div>
-    </div>
 
     <div class="block">
       <h3 class="h3big">Mitos que você vai ouvir por aí</h3>
@@ -136,7 +112,7 @@ O login tá dando erro, arruma aí pfv.</pre>
         <h2>Trilha de aprendizado</h2>
         <p class="lead">Seis níveis em ordem, montados a partir do que eu realmente uso no trabalho. Marque o que já aprendeu: seu progresso fica salvo neste navegador.</p>
       </div>
-      <div class="reset-zone" id="resetZone">
+      <div class="reset-zone" id="resetZone" hidden>
         <button class="linkbtn" id="resetAsk" type="button">Recomeçar a trilha</button>
       </div>
     </div>
@@ -155,10 +131,9 @@ O login tá dando erro, arruma aí pfv.</pre>
     <div class="explore">
       <a class="card-link" href="/ferramentas"><p class="eyebrow">Caixa de ferramentas</p><strong>Ferramentas</strong><span>As ferramentas de teste mais pedidas nas vagas, organizadas por categoria, com indicação de por onde começar.</span><span class="go">Abrir →</span></a>
       <a class="card-link" href="/certificacoes"><p class="eyebrow">Certificações</p><strong>Certificações</strong><span>Quando vale tirar a CTFL e a AWS Cloud Practitioner, e como estudar para a prova.</span><span class="go">Abrir →</span></a>
-      <a class="card-link" href="/pratica"><p class="eyebrow">Mão na massa</p><strong>Prática</strong><span>Sites para treinar testes e um projeto guiado para montar seu primeiro portfólio.</span><span class="go">Abrir →</span></a>
+      <a class="card-link" href="/pratica"><p class="eyebrow">Mão na massa</p><strong>Prática</strong><span>Sites para treinar, um modelo de bug report e um projeto guiado para montar seu primeiro portfólio.</span><span class="go">Abrir →</span></a>
       <a class="card-link" href="/carreira"><p class="eyebrow">Mercado de trabalho</p><strong>Carreira</strong><span>Níveis da carreira, uma trajetória real do estágio ao sênior, currículo e entrevistas.</span><span class="go">Abrir →</span></a>
       <a class="card-link" href="/glossario"><p class="eyebrow">Consulta rápida</p><strong>Glossário</strong><span>Os termos de QA mais usados no dia a dia, explicados em linguagem simples.</span><span class="go">Abrir →</span></a>
-      <a class="card-link" href="#sobre"><p class="eyebrow">Quem escreve</p><strong>Sobre</strong><span>Quem é a pessoa por trás deste guia e como falar comigo.</span><span class="go">Ler →</span></a>
     </div>
   </div>
 </section>
@@ -200,7 +175,6 @@ O login tá dando erro, arruma aí pfv.</pre>
   </div>
 </footer>
 <script>
-(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
 const LEVELS = [
   { id:"fundamentos", code:"CT-001", name:"Fundamentos", time:"3 a 4 semanas", tool:"Syllabus CTFL 4.0 (gratuito no site do BSTQB)",
     goal:"Entender por que testamos, o vocabulário básico e onde o teste entra no desenvolvimento.",
@@ -291,6 +265,8 @@ function renderRun(){
   document.getElementById("runList").innerHTML = rows + `<li style="grid-template-columns:1fr"><div class="bar"><i style="width:${pct}%"></i></div></li>`;
   document.getElementById("runPct").textContent = pct + "%";
   document.getElementById("runSummary").textContent = `${ok} de ${total} itens concluídos`;
+  document.getElementById("resetZone").hidden = ok===0;
+  try { localStorage.setItem("pp-qa-total", String(total)); } catch(e) {}
 }
 
 function renderTabs(){

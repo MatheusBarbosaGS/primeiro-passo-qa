@@ -14,6 +14,7 @@ Guia descomplicado para quem quer entrar na área de Qualidade de Software, feit
 | `glossario.html` | `/glossario` | Glossário pesquisável |
 
 - `styles.css`: estilos compartilhados por todas as páginas
+- `site.js`: menu no celular e progresso da trilha nas páginas internas
 - `vercel.json`: ativa os endereços sem `.html`
 - `favicon.svg`: ícone da aba
 

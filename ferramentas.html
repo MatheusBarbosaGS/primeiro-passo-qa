@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 <header class="top">
@@ -36,7 +37,7 @@
 <main>
 <section class="page-head">
   <div class="wrap sec-head" style="margin-bottom:0">
-    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Ferramentas</span></p>
+    <div class="crumb-row"><p class="crumbs"><a href="/">Início</a><span>/</span><span>Ferramentas</span></p><a class="suite-mini" id="suiteMini" href="/#trilha"><span>suite: carreira-qa</span><span class="go">ver trilha →</span></a></div>
     <p class="eyebrow">Caixa de ferramentas</p>
       <h1>As ferramentas que passaram pela minha mão</h1>
       <p class="lead">Ninguém precisa saber todas. Elas estão aqui para você reconhecer os nomes nas vagas e saber por qual começar.</p>
@@ -45,9 +46,9 @@
 <section class="page-body" style="border-bottom:0">
   <div class="wrap">
 
-    <div class="legend">
-      <span class="chip start">Comece por aqui</span>
-      <span class="chip daily">Uso no trabalho atual</span>
+    <div class="legend" aria-label="Legenda">
+      <span class="legend-item"><span class="chip start">ferramenta</span>comece por aqui</span>
+      <span class="legend-item"><span class="chip daily">ferramenta</span>uso no meu trabalho atual</span>
     </div>
     <div class="tools" id="tools"></div>
     <a class="next" href="/certificacoes"><span><span class="eyebrow">Próxima página</span><strong>Certificações</strong></span><span class="go">Continuar →</span></a>
@@ -66,7 +67,6 @@
   </div>
 </footer>
 <script>
-(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
 const TOOLS = [
   { name:"Gestão de testes e bugs", desc:"Onde você organiza casos de teste, execuções e defeitos.",
     items:[["Jira","start daily"],["Zephyr","daily"],["Qase",""],["Quality Center",""]] },
@@ -80,18 +80,16 @@ const TOOLS = [
     items:[["Gherkin","start daily"],["Mocha","daily"],["Cucumber",""],["JUnit",""],["Capybara · Ruby",""]] },
   { name:"Versionamento e CI/CD", desc:"Guardam o código e rodam os testes automaticamente.",
     items:[["Git","start daily"],["Bitbucket","daily"],["Jenkins","daily"],["GitHub",""],["GitLab",""],["GitFlow",""]] },
-  { name:"Dados e servidores", desc:"Para conferir o que acontece por trás da tela.",
-    items:[["SQL · PostgreSQL","start"],["DynamoDB","daily"],["Linux · logs",""]] },
+  { name:"Dados, nuvem e servidores", desc:"Para conferir o que acontece por trás da tela e onde o sistema roda.",
+    items:[["SQL · PostgreSQL","start"],["DynamoDB","daily"],["AWS","daily"],["Linux · logs",""]] },
   { name:"Performance", desc:"Para medir como o sistema se comporta sob carga.",
     items:[["JMeter",""]] },
-  { name:"Nuvem", desc:"Onde as aplicações e os ambientes de teste rodam.",
-    items:[["AWS","daily"]] },
 ];
 
 
 document.getElementById("tools").innerHTML = TOOLS.map(g=>`
   <div class="tgroup"><h3>${g.name}</h3><p>${g.desc}</p>
-    <div class="chips">${g.items.map(t=>`<span class="chip ${t[1]}">${t[0]}</span>`).join("")}</div>
+    <div class="chips">${g.items.map(t=>`<span class="chip ${t[1]}"${/daily/.test(t[1])?' title="Uso no meu trabalho atual"':""}>${t[0]}</span>`).join("")}</div>
   </div>`).join("");
 </script>
 </body>

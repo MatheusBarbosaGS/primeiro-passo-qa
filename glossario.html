@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script src="/site.js" defer></script>
 </head>
 <body>
 <header class="top">
@@ -36,7 +37,7 @@
 <main>
 <section class="page-head">
   <div class="wrap sec-head" style="margin-bottom:0">
-    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Glossário</span></p>
+    <div class="crumb-row"><p class="crumbs"><a href="/">Início</a><span>/</span><span>Glossário</span></p><a class="suite-mini" id="suiteMini" href="/#trilha"><span>suite: carreira-qa</span><span class="go">ver trilha →</span></a></div>
     <p class="eyebrow">Consulta rápida</p>
       <h1>Glossário de QA</h1>
       <p class="lead">Ouviu um termo na daily e não entendeu? Procure aqui.</p>
@@ -68,7 +69,6 @@
   </div>
 </footer>
 <script>
-(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
 const GLOSS = [
   ["Bug","Nome popular para um defeito: algo no sistema que não funciona como deveria.","geral"],
   ["Erro, defeito e falha","Erro é o engano humano, defeito é o problema no código, falha é o que o usuário vê acontecer.","CTFL"],
@@ -76,6 +76,7 @@ const GLOSS = [
   ["Cenário de teste","Situação de alto nível a ser testada, como 'login com senha expirada'. Um cenário pode gerar vários casos.","manual"],
   ["Plano de teste","Documento que define o que será testado, como, por quem, com quais recursos e prazos.","processo"],
   ["Evidência","Print, vídeo ou log que comprova o resultado de um teste ou a existência de um bug.","manual"],
+  ["Daily","Reunião rápida do time ágil, de cerca de 15 minutos, para alinhar o que foi feito, o que vem a seguir e o que está travando.","ágil"],
   ["Critério de aceite","Condições que uma história precisa cumprir para ser considerada pronta pelo time e pelo cliente.","ágil"],
   ["Gherkin / BDD","Formato de escrita de cenários com Dado, Quando, Então, que aproxima negócio, dev e QA.","ágil"],
   ["Teste de regressão","Testar de novo o que já funcionava, para garantir que uma mudança nova não quebrou nada.","tipo"],
@@ -111,11 +112,12 @@ const GLOSS = [
 ];
 
 const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const slug = s => norm(s).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 function renderGloss(q=""){
   const nq = norm(q.trim());
   const list = GLOSS.filter(g=>!nq || norm(g[0]+" "+g[1]+" "+g[2]).includes(nq))
                     .sort((a,b)=>a[0].localeCompare(b[0],"pt"));
-  document.getElementById("gloss").innerHTML = list.map(g=>`<div><dt>${g[0]}<small>${g[2]}</small></dt><dd>${g[1]}</dd></div>`).join("");
+  document.getElementById("gloss").innerHTML = list.map(g=>`<div id="${slug(g[0])}"><dt>${g[0]}<small>${g[2]}</small></dt><dd>${g[1]}</dd></div>`).join("");
   document.getElementById("gempty").hidden = list.length>0;
   document.getElementById("gcount").textContent = `${list.length} de ${GLOSS.length} termos`;
 }
@@ -123,6 +125,14 @@ document.getElementById("q").addEventListener("input", e=>renderGloss(e.target.v
 
 
 renderGloss();
+function showHash(){
+  const id = decodeURIComponent(location.hash.slice(1)); if(!id) return;
+  const el = document.getElementById(id); if(!el || !el.closest("#gloss")) return;
+  document.querySelectorAll("#gloss .hit").forEach(x=>x.classList.remove("hit"));
+  el.classList.add("hit"); el.scrollIntoView({block:"center"});
+}
+window.addEventListener("hashchange", showHash);
+showHash();
 </script>
 </body>
 </html>
