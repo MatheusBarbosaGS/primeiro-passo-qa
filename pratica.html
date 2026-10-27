@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prática · Primeiro Passo em QA</title>
+<meta name="description" content="Sites para treinar testes e um projeto guiado para montar seu primeiro portfólio.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Prática · Primeiro Passo em QA">
+<meta property="og:description" content="Sites para treinar testes e um projeto guiado para montar seu primeiro portfólio.">
+<meta property="og:locale" content="pt_BR">
+<meta name="author" content="Matheus Barbosa">
+<meta name="theme-color" content="#0B7A5C">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="dot"></span>Primeiro Passo em QA</a>
+    <nav class="links" aria-label="Páginas">
+      <a href="/#trilha">Trilha</a>
+      <a href="/ferramentas">Ferramentas</a>
+      <a href="/certificacoes">Certificações</a>
+      <a href="/pratica" aria-current="page">Prática</a>
+      <a href="/carreira">Carreira</a>
+      <a href="/glossario">Glossário</a>
+      <a href="/#sobre">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-head">
+  <div class="wrap sec-head" style="margin-bottom:0">
+    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Prática</span></p>
+    <p class="eyebrow">Mão na massa</p>
+      <h1>Portfólio e prática</h1>
+      <p class="lead">Sem experiência, seu portfólio é a sua experiência. Estes sites foram feitos para treinar testes, então você pode testar à vontade.</p>
+  </div>
+</section>
+<section class="page-body" style="border-bottom:0">
+  <div class="wrap">
+
+    <div class="block" style="margin-top:0">
+      <h3 class="h3big">Onde praticar</h3>
+      <div class="sites">
+        <a class="site" href="https://www.saucedemo.com/" target="_blank" rel="noopener"><p class="eyebrow">Web</p><strong>Sauce Demo</strong><span>Loja fictícia com login, carrinho e checkout. Ótima para casos de teste e primeira automação.</span></a>
+        <a class="site" href="https://the-internet.herokuapp.com/" target="_blank" rel="noopener"><p class="eyebrow">Web</p><strong>The Internet</strong><span>Dezenas de páginas com situações difíceis de automatizar: alertas, iframes, upload, tabelas.</span></a>
+        <a class="site" href="https://automationexercise.com/" target="_blank" rel="noopener"><p class="eyebrow">Web e API</p><strong>Automation Exercise</strong><span>E-commerce completo, com lista de cenários sugeridos e APIs para praticar.</span></a>
+        <a class="site" href="https://serverest.dev/" target="_blank" rel="noopener"><p class="eyebrow">API</p><strong>ServeRest</strong><span>API REST criada pela comunidade brasileira, com documentação em português.</span></a>
+        <a class="site" href="https://restful-booker.herokuapp.com/" target="_blank" rel="noopener"><p class="eyebrow">API</p><strong>Restful Booker</strong><span>API de reservas com bugs de propósito, ideal para treinar o Postman e o RestAssured.</span></a>
+        <a class="site" href="https://github.com/saucelabs/my-demo-app-android" target="_blank" rel="noopener"><p class="eyebrow">Mobile</p><strong>My Demo App</strong><span>App de exemplo da Sauce Labs para Android e iOS, para dar os primeiros passos com Appium.</span></a>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 class="h3big">Projeto guiado: seu primeiro portfólio</h3>
+      <p class="lead">Um único projeto bem feito, do manual à automação, conta mais do que dez tutoriais pela metade.</p>
+      <ol class="steps">
+        <li><div><strong>Escolha um sistema e escreva o plano de teste</strong><span>Use o Sauce Demo. Defina o que será testado (login, carrinho, checkout), o que fica de fora e quais riscos você enxerga.</span></div></li>
+        <li><div><strong>Escreva 15 a 20 casos de teste em Gherkin</strong><span>Inclua caminhos felizes e negativos: senha errada, carrinho vazio, campos obrigatórios em branco.</span></div></li>
+        <li><div><strong>Execute e reporte os bugs que encontrar</strong><span>O site tem usuários com problemas propositais. Escreva os bug reports no modelo "Aprovado" da seção <a href="/#o-que-e">O que é QA</a>.</span></div></li>
+        <li><div><strong>Automatize os cenários principais</strong><span>Com Selenium e Java, usando Page Objects e Cucumber para ligar os cenários Gherkin ao código.</span></div></li>
+        <li><div><strong>Adicione testes de API</strong><span>Crie uma coleção no Postman para o ServeRest e, depois, automatize os mesmos testes com RestAssured.</span></div></li>
+        <li><div><strong>Rode tudo numa pipeline e capriche no README</strong><span>Configure o GitHub Actions para rodar os testes a cada push e explique no README como executar o projeto.</span></div></li>
+      </ol>
+      <p class="eyebrow" style="margin-top:20px">Estrutura sugerida do repositório</p>
+      <div class="repo"><pre>qa-portfolio-saucedemo/
+├── README.md               ← o que é, como rodar, prints dos resultados
+├── docs/
+│   ├── plano-de-teste.md
+│   ├── casos-de-teste.feature
+│   └── bugs-encontrados.md
+├── src/test/java/
+│   ├── pages/              ← Page Objects (LoginPage, CartPage…)
+│   ├── steps/              ← steps do Cucumber
+│   └── api/                ← testes RestAssured
+└── .github/workflows/tests.yml</pre></div>
+    </div>
+    <a class="next" href="/carreira"><span><span class="eyebrow">Próxima página</span><strong>Carreira</strong></span><span class="go">Continuar →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="foot-links" aria-label="Mapa do site">
+      <a href="/">Início</a><a href="/#o-que-e">O que é QA</a><a href="/#trilha">Trilha</a>
+      <a href="/ferramentas">Ferramentas</a><a href="/certificacoes">Certificações</a><a href="/pratica">Prática</a>
+      <a href="/carreira">Carreira</a><a href="/glossario">Glossário</a><a href="/#sobre">Sobre</a>
+    </nav>
+    <p>Primeiro Passo em QA · por <a href="https://www.linkedin.com/in/matheusbgs" target="_blank" rel="noopener">Matheus Barbosa</a> · conteúdo revisado em outubro de 2026</p>
+  </div>
+</footer>
+<script>
+(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
+
+</script>
+</body>
+</html>

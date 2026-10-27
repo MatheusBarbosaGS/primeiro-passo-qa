@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glossário · Primeiro Passo em QA</title>
+<meta name="description" content="Os termos de QA mais usados no dia a dia, explicados em linguagem simples.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glossário · Primeiro Passo em QA">
+<meta property="og:description" content="Os termos de QA mais usados no dia a dia, explicados em linguagem simples.">
+<meta property="og:locale" content="pt_BR">
+<meta name="author" content="Matheus Barbosa">
+<meta name="theme-color" content="#0B7A5C">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="dot"></span>Primeiro Passo em QA</a>
+    <nav class="links" aria-label="Páginas">
+      <a href="/#trilha">Trilha</a>
+      <a href="/ferramentas">Ferramentas</a>
+      <a href="/certificacoes">Certificações</a>
+      <a href="/pratica">Prática</a>
+      <a href="/carreira">Carreira</a>
+      <a href="/glossario" aria-current="page">Glossário</a>
+      <a href="/#sobre">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-head">
+  <div class="wrap sec-head" style="margin-bottom:0">
+    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Glossário</span></p>
+    <p class="eyebrow">Consulta rápida</p>
+      <h1>Glossário de QA</h1>
+      <p class="lead">Ouviu um termo na daily e não entendeu? Procure aqui.</p>
+  </div>
+</section>
+<section class="page-body" style="border-bottom:0">
+  <div class="wrap">
+
+    <div class="search">
+      <label for="q" class="eyebrow" style="flex-basis:100%">Buscar termo</label>
+      <input id="q" type="search" placeholder="Ex.: regressão, smoke, Appium" autocomplete="off">
+      <span class="count" id="gcount"></span>
+    </div>
+    <dl class="gloss" id="gloss"></dl>
+    <p class="empty" id="gempty" hidden>Nenhum termo encontrado. Tente uma palavra mais curta.</p>
+    <a class="next" href="/#trilha"><span><span class="eyebrow">Hora de praticar</span><strong>Voltar para a trilha</strong></span><span class="go">Continuar →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="foot-links" aria-label="Mapa do site">
+      <a href="/">Início</a><a href="/#o-que-e">O que é QA</a><a href="/#trilha">Trilha</a>
+      <a href="/ferramentas">Ferramentas</a><a href="/certificacoes">Certificações</a><a href="/pratica">Prática</a>
+      <a href="/carreira">Carreira</a><a href="/glossario">Glossário</a><a href="/#sobre">Sobre</a>
+    </nav>
+    <p>Primeiro Passo em QA · por <a href="https://www.linkedin.com/in/matheusbgs" target="_blank" rel="noopener">Matheus Barbosa</a> · conteúdo revisado em outubro de 2026</p>
+  </div>
+</footer>
+<script>
+(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
+const GLOSS = [
+  ["Bug","Nome popular para um defeito: algo no sistema que não funciona como deveria.","geral"],
+  ["Erro, defeito e falha","Erro é o engano humano, defeito é o problema no código, falha é o que o usuário vê acontecer.","CTFL"],
+  ["Caso de teste","Roteiro com pré-condições, passos, dados e resultado esperado para verificar algo específico.","manual"],
+  ["Cenário de teste","Situação de alto nível a ser testada, como 'login com senha expirada'. Um cenário pode gerar vários casos.","manual"],
+  ["Plano de teste","Documento que define o que será testado, como, por quem, com quais recursos e prazos.","processo"],
+  ["Evidência","Print, vídeo ou log que comprova o resultado de um teste ou a existência de um bug.","manual"],
+  ["Critério de aceite","Condições que uma história precisa cumprir para ser considerada pronta pelo time e pelo cliente.","ágil"],
+  ["Gherkin / BDD","Formato de escrita de cenários com Dado, Quando, Então, que aproxima negócio, dev e QA.","ágil"],
+  ["Teste de regressão","Testar de novo o que já funcionava, para garantir que uma mudança nova não quebrou nada.","tipo"],
+  ["Smoke test","Teste rápido das funções principais, para saber se a versão está estável o bastante para testar a fundo.","tipo"],
+  ["Sanity test","Verificação rápida e focada depois de uma correção, para confirmar que aquele ponto específico funciona.","tipo"],
+  ["Reteste","Executar de novo o teste que encontrou um bug, depois que ele foi corrigido.","tipo"],
+  ["Teste exploratório","Testar aprendendo o sistema ao mesmo tempo, guiado por um objetivo e com tempo definido.","manual"],
+  ["Teste end-to-end (E2E)","Teste que percorre um fluxo completo, do começo ao fim, como um usuário faria.","tipo"],
+  ["Caixa-preta","Testar pelo comportamento, sem olhar o código. Foco em entradas e saídas.","técnica"],
+  ["Caixa-branca","Testar com base na estrutura interna do código, como caminhos e condições.","técnica"],
+  ["Partição de equivalência","Dividir as entradas em grupos que o sistema trata igual e testar um valor de cada grupo.","técnica"],
+  ["Análise de valor-limite","Testar nas bordas das faixas válidas, como 17, 18 e 19 anos para uma regra de maioridade.","técnica"],
+  ["Severidade","O tamanho do impacto técnico de um bug no sistema.","bugs"],
+  ["Prioridade","A urgência para corrigir um bug, definida pelo negócio. Nem todo bug grave é urgente, e vice-versa.","bugs"],
+  ["Ambiente de homologação","Cópia do sistema, parecida com produção, onde se testa antes de liberar para os usuários. Também chamado de staging.","ambientes"],
+  ["Produção","O ambiente real, usado pelos clientes.","ambientes"],
+  ["Pirâmide de testes","Modelo que sugere muitos testes de unidade, alguns de integração e poucos de interface.","automação"],
+  ["Flaky test","Teste automatizado instável, que às vezes passa e às vezes falha sem mudança no código.","automação"],
+  ["Seletor","Forma de localizar um elemento na página para um teste automatizado interagir com ele, como id, CSS ou XPath.","automação"],
+  ["Page Object","Padrão que separa os elementos e ações de cada tela em uma classe, deixando os testes mais organizados.","automação"],
+  ["Appium","Ferramenta open source para automatizar apps Android e iOS, usando a mesma ideia do Selenium.","mobile"],
+  ["Emulador","Programa que simula um celular no computador, usado para testar apps sem um aparelho físico.","mobile"],
+  ["GitFlow","Modelo de organização de branches no Git, com branches de feature, develop, release e main.","devops"],
+  ["CI/CD","Integração e entrega contínuas: o código é testado e publicado automaticamente a cada mudança.","devops"],
+  ["Pipeline","Sequência automática de etapas, como build, testes e deploy, que roda a cada alteração no código.","devops"],
+  ["API","Interface que permite que sistemas conversem entre si, geralmente trocando dados em JSON.","técnico"],
+  ["Status code","Código numérico da resposta HTTP. 200 é sucesso, 404 é não encontrado, 500 é erro no servidor.","técnico"],
+  ["Log","Registro do que o sistema fez. Ler logs ajuda a achar a causa de um erro.","técnico"],
+  ["Teste de carga","Medir como o sistema se comporta com o volume de usuários esperado.","performance"],
+  ["Teste de estresse","Levar o sistema além do limite esperado para descobrir onde e como ele quebra.","performance"],
+  ["Shift-left","Trazer a qualidade para o início do desenvolvimento, testando e revisando requisitos cedo.","processo"],
+  ["Definition of Done","Lista de condições que o time combina para considerar qualquer tarefa realmente pronta.","ágil"],
+];
+
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+function renderGloss(q=""){
+  const nq = norm(q.trim());
+  const list = GLOSS.filter(g=>!nq || norm(g[0]+" "+g[1]+" "+g[2]).includes(nq))
+                    .sort((a,b)=>a[0].localeCompare(b[0],"pt"));
+  document.getElementById("gloss").innerHTML = list.map(g=>`<div><dt>${g[0]}<small>${g[2]}</small></dt><dd>${g[1]}</dd></div>`).join("");
+  document.getElementById("gempty").hidden = list.length>0;
+  document.getElementById("gcount").textContent = `${list.length} de ${GLOSS.length} termos`;
+}
+document.getElementById("q").addEventListener("input", e=>renderGloss(e.target.value));
+
+
+renderGloss();
+</script>
+</body>
+</html>

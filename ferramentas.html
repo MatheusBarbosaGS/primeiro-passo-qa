@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ferramentas · Primeiro Passo em QA</title>
+<meta name="description" content="As ferramentas de teste mais pedidas nas vagas, organizadas por categoria, com indicação de por onde começar.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ferramentas · Primeiro Passo em QA">
+<meta property="og:description" content="As ferramentas de teste mais pedidas nas vagas, organizadas por categoria, com indicação de por onde começar.">
+<meta property="og:locale" content="pt_BR">
+<meta name="author" content="Matheus Barbosa">
+<meta name="theme-color" content="#0B7A5C">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="dot"></span>Primeiro Passo em QA</a>
+    <nav class="links" aria-label="Páginas">
+      <a href="/#trilha">Trilha</a>
+      <a href="/ferramentas" aria-current="page">Ferramentas</a>
+      <a href="/certificacoes">Certificações</a>
+      <a href="/pratica">Prática</a>
+      <a href="/carreira">Carreira</a>
+      <a href="/glossario">Glossário</a>
+      <a href="/#sobre">Sobre</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-head">
+  <div class="wrap sec-head" style="margin-bottom:0">
+    <p class="crumbs"><a href="/">Início</a><span>/</span><span>Ferramentas</span></p>
+    <p class="eyebrow">Caixa de ferramentas</p>
+      <h1>As ferramentas que passaram pela minha mão</h1>
+      <p class="lead">Ninguém precisa saber todas. Elas estão aqui para você reconhecer os nomes nas vagas e saber por qual começar.</p>
+  </div>
+</section>
+<section class="page-body" style="border-bottom:0">
+  <div class="wrap">
+
+    <div class="legend">
+      <span class="chip start">Comece por aqui</span>
+      <span class="chip daily">Uso no trabalho atual</span>
+    </div>
+    <div class="tools" id="tools"></div>
+    <a class="next" href="/certificacoes"><span><span class="eyebrow">Próxima página</span><strong>Certificações</strong></span><span class="go">Continuar →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="foot-links" aria-label="Mapa do site">
+      <a href="/">Início</a><a href="/#o-que-e">O que é QA</a><a href="/#trilha">Trilha</a>
+      <a href="/ferramentas">Ferramentas</a><a href="/certificacoes">Certificações</a><a href="/pratica">Prática</a>
+      <a href="/carreira">Carreira</a><a href="/glossario">Glossário</a><a href="/#sobre">Sobre</a>
+    </nav>
+    <p>Primeiro Passo em QA · por <a href="https://www.linkedin.com/in/matheusbgs" target="_blank" rel="noopener">Matheus Barbosa</a> · conteúdo revisado em outubro de 2026</p>
+  </div>
+</footer>
+<script>
+(function(){var n=document.querySelector("nav.links"),a=n&&n.querySelector("[aria-current]");if(a&&n.scrollWidth>n.clientWidth){n.scrollLeft+=a.getBoundingClientRect().left-n.getBoundingClientRect().left-(n.clientWidth-a.offsetWidth)/2;}})();
+const TOOLS = [
+  { name:"Gestão de testes e bugs", desc:"Onde você organiza casos de teste, execuções e defeitos.",
+    items:[["Jira","start daily"],["Zephyr","daily"],["Qase",""],["Quality Center",""]] },
+  { name:"Testes de API", desc:"Para testar o back-end sem depender da tela.",
+    items:[["Postman","start"],["Bruno","daily"],["Pactum","daily"],["Insomnia",""],["SoapUI",""],["RestAssured",""]] },
+  { name:"Automação web", desc:"Simulam um usuário usando o navegador.",
+    items:[["Selenium · Java","start"],["Robot Framework",""],["Cypress",""],["TestCafe",""]] },
+  { name:"Automação mobile", desc:"Para apps Android e iOS.",
+    items:[["Appium",""],["BrowserStack",""]] },
+  { name:"BDD e frameworks de teste", desc:"Escrita de cenários e estrutura dos testes automatizados.",
+    items:[["Gherkin","start daily"],["Mocha","daily"],["Cucumber",""],["JUnit",""],["Capybara · Ruby",""]] },
+  { name:"Versionamento e CI/CD", desc:"Guardam o código e rodam os testes automaticamente.",
+    items:[["Git","start daily"],["Bitbucket","daily"],["Jenkins","daily"],["GitHub",""],["GitLab",""],["GitFlow",""]] },
+  { name:"Dados e servidores", desc:"Para conferir o que acontece por trás da tela.",
+    items:[["SQL · PostgreSQL","start"],["DynamoDB","daily"],["Linux · logs",""]] },
+  { name:"Performance", desc:"Para medir como o sistema se comporta sob carga.",
+    items:[["JMeter",""]] },
+  { name:"Nuvem", desc:"Onde as aplicações e os ambientes de teste rodam.",
+    items:[["AWS","daily"]] },
+];
+
+
+document.getElementById("tools").innerHTML = TOOLS.map(g=>`
+  <div class="tgroup"><h3>${g.name}</h3><p>${g.desc}</p>
+    <div class="chips">${g.items.map(t=>`<span class="chip ${t[1]}">${t[0]}</span>`).join("")}</div>
+  </div>`).join("");
+</script>
+</body>
+</html>
